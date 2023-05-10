@@ -21,18 +21,13 @@ B = padarray(B, round((size(I) - size(B))/2), 0, "both");
 B = B(1:HEIGHT, 1:WIDTH); % Trim off any rounding errors
 Fb = fft2(B);
 
-% 2. compute and apply the inverse filter
-I_deblur = zeros([HEIGHT WIDTH]);
+% Compute inverse filter
 Finv = (Fi./Fb).*((abs(Fb).^2./(abs(Fb).^2 + k)));
-% 3. convert back to a real image
+% Convert inverse to real image
 Inv = real(ifftshift(ifft2(Finv)));
-% 4. handle any spatial delay caused by zero padding of B
-for y=1:HEIGHT
-    for x=1:WIDTH
-        I_deblur(y,x) = Inv(y,x) * I(y,x);
-    end
-end
-%
+% Apply inverse filter
+I_deblur = Inv .* I;
+
 % you may need to deal with values near zero in the FFT of B etc
 % to avoid division by zero's etc.
 
