@@ -22,16 +22,8 @@ B = B(1:HEIGHT, 1:WIDTH); % Trim off any rounding errors
 Fb = fft2(B);
 
 % 2. compute and apply the inverse filter
-Finv = zeros([HEIGHT WIDTH]);
 I_deblur = zeros([HEIGHT WIDTH]);
-for y=1:HEIGHT
-    for x=1:WIDTH
-        fi = Fi(y,x);
-        fb = Fb(y,x);
-        Finv(y, x) = (fi/fb)*((abs(fb)^2/(abs(fb)^2 + k)));
-        
-    end
-end
+Finv = (Fi./Fb).*((abs(Fb).^2./(abs(Fb).^2 + k)));
 % 3. convert back to a real image
 Inv = real(ifftshift(ifft2(Finv)));
 % 4. handle any spatial delay caused by zero padding of B
