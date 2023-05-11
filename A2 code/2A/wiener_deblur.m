@@ -21,7 +21,7 @@ Fb2 = abs(Fb).^2;
 F_deblur = (Fi ./ Fb) .* ((Fb2 ./ (Fb2 + k)));
 
 % Convert deblur to real image
-I_deblur = ifftshift(real(ifft2(F_deblur)));
+I_deblur = real(ifftshift(ifft2(F_deblur)));
 
 % modify the code above ------------------------------------------------
 
