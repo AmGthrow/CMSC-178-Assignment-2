@@ -56,7 +56,31 @@ imagesc(Iinv); axis equal tight; caxis([0 1]);
 title('Deconvoled Image');
 drawnow;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEST 4 - Motion blur
 
+K=0.001;  % noise standard deviation
 
+I=double(imread('rice.png'))/255;
+%I=double(imread('pout.tif'))/255;
 
+B=fspecial('motion',10,5);
+Ib= imnoise(blur_image(I,B),'salt & pepper',K);
 
+Iinv=wiener_deblur(Ib,B,K);
+
+figure;
+colormap(gray);
+subplot(1,7,[1 2]);
+imagesc(I); axis equal tight; caxis([0 1]);
+title('Original Image');
+subplot(1,7,[3 4]);
+imagesc(Ib); axis equal tight; caxis([0 1]);
+title('Corrupted Data');
+subplot(1,7,5);
+imagesc(B); axis equal tight;
+title('PSF');
+subplot(1,7,[6 7]);
+imagesc(Iinv); axis equal tight; caxis([0 1]);
+title('Deconvoled Image');
+drawnow;
