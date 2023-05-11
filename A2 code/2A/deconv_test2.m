@@ -20,5 +20,5 @@ imagesc(B); axis equal tight;
 title('PSF (Guess)');
 subplot(1,5,[4 5]);
 imagesc(Iinv); axis equal tight; caxis([0 1]);
-title('Deconvoled Image');
+title(['Deconvolved Image (K=' num2str(k) ')']);
 drawnow;
