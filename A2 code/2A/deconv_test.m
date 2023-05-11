@@ -56,6 +56,32 @@ imagesc(Iinv); axis equal tight; caxis([0 1]);
 title('Deconvoled Image');
 drawnow;
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEST 3 - Test 2 with low threshold
+
+K=0.01;  % noise standard deviation
+
+I=double(imread('example2.png'))/255; I=I(:,:,1);
+B = fspecial('disk',9);
+Ib= noisy_image(blur_image(I,B),K);
+Iinv=wiener_deblur(Ib,B,0.02*K);
+figure;
+colormap(gray);
+subplot(1,7,[1 2]);
+imagesc(I); axis equal tight; caxis([0 1]);
+title('Original Image');
+subplot(1,7,[3 4]);
+imagesc(Ib); axis equal tight; caxis([0 1]);
+title('Corrupted Data');
+subplot(1,7,5);
+imagesc(B); axis equal tight;
+title('PSF');
+subplot(1,7,[6 7]);
+imagesc(Iinv); axis equal tight; caxis([0 1]);
+title('Deconvoled Image');
+drawnow;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TEST 4 - Motion blur
 
