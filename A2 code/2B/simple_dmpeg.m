@@ -26,7 +26,6 @@ new_image = previous_image;
 
 %-----------change code from here --------------------------------
 
-tile_num=0;
 % ANALYSE (AND COMPRESS?) EACH 8x8 BLOCK IN THE IMAGE IN TURN
 % FOR LOOPS
       % 1. retrieve coefficients for this block
@@ -39,6 +38,18 @@ tile_num=0;
 %
 % SEE SIMPLE_MPEG for clues.
 
+tile_num=0;
+for ii = 1:8:size(new_image,1)
+    for jj = 1:8:size(new_image,2)
+        tile_num = tile_num+1;
+        dc_iijj = dc_coeffs((ii+7)/8, (jj+7)/8);
+        ac_iijj = ac_coeffs(:,tile_num);
+        if  ~(dc_iijj==0 && all(ac_iijj(:)==0))
+            new_image(ii:ii+7, jj:jj+7) = djpeg_8x8(dc_iijj,ac_iijj,Q);
+        end
+    end
+end
+
 %-----------change code above here --------------------------------
 
 % enforce uint8 format
@@ -49,8 +60,3 @@ return
 end
 
 % -------------------------------------------------------------------------
-
-
-
-  
-
